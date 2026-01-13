@@ -1,47 +1,89 @@
-# FTP Server
+# Kindle FTP & Web File Server
 
-A simple local FTP server that serves the current directory.
+A simple local file server for transferring books and files to your Kindle (or any device) over WiFi. Includes both FTP and Web interfaces.
 
-## Setup
+## Features
 
-1. Install the required Python package:
+- **Web File Browser** - Beautiful web interface optimized for Kindle's experimental browser
+- **FTP Server** - Standard FTP protocol for file manager apps and desktop clients
+- **No Dependencies** - Web server uses Python standard library only
+- **Cross-Platform** - Works on macOS, Linux, and Windows
+
+## Quick Start
+
+### Web File Browser (Recommended for Kindle)
+
 ```bash
-pip install pyftpdlib
+python web_file_server.py
 ```
 
-2. Run the FTP server:
+Then on your Kindle:
+1. Open the experimental browser
+2. Navigate to `http://<your-computer-ip>:8080`
+3. Browse and download files directly
+
+### FTP Server
+
 ```bash
+pip install pyftpdlib
 python ftp_server.py
 ```
 
 ## Connection Details
 
-- **Server Address**: `ftp://localhost:2121`
-- **Username**: `user`
-- **Password**: `12345`
-- **Anonymous Access**: Enabled (read-only)
+### Web Server
+| Setting | Value |
+|---------|-------|
+| URL | `http://<your-ip>:8080` |
+| Access | Read-only browsing and download |
 
-## Connect via Command Line
+### FTP Server
+| Setting | Value |
+|---------|-------|
+| Host | `<your-ip>` |
+| Port | `2121` |
+| Username | `user` |
+| Password | `12345` |
+| Anonymous | Enabled (read-only) |
 
+## Usage Tips
+
+### Finding Your Computer's IP
+The web server will display your local IP address when it starts. You can also find it with:
 ```bash
-ftp localhost 2121
-# Then login with username: user, password: 12345
-# Or login as anonymous
+# macOS/Linux
+ifconfig | grep "inet "
+
+# Windows
+ipconfig
 ```
 
-## Connect via FileZilla or Other FTP Clients
+### Kindle Browser Tips
+- Kindle's browser works best with the web server
+- Files download directly to your Kindle's documents folder
+- Supported formats: `.azw3`, `.mobi`, `.epub`, `.pdf`, `.txt`
 
-- Host: `localhost`
-- Port: `2121`
-- Protocol: `FTP`
-- Username: `user`
-- Password: `12345`
+### Using FTP Clients
+Connect with any FTP client (FileZilla, Cyberduck, etc.):
+- Protocol: FTP
+- Host: Your computer's IP
+- Port: 2121
+- Credentials: `user` / `12345`
 
-## Permissions
+## File Structure
 
-- Authenticated user (`user`): Full read/write permissions
-- Anonymous: Read-only access
+```
+kindle_ftp_web/
+├── ftp_server.py      # FTP server script
+├── web_file_server.py # Web file browser script
+└── books/             # Default directory for your books
+```
 
-## Stop the Server
+## Requirements
 
-Press `Ctrl+C` in the terminal where the server is running.
+- Python 3.6+
+- `pyftpdlib` (FTP server only): `pip install pyftpdlib`
+
+## License
+
+MIT
